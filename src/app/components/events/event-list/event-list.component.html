@@ -1,0 +1,160 @@
+<div class="event-list-container">
+  <!-- Header -->
+  <div class="header">
+    <h1>🎉 Gestión de Eventos</h1>
+    <button class="btn-primary" (click)="createNewEvent()">
+      <span>➕</span> Nuevo Evento
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label for="titleFilter">Título:</label>
+        <input 
+          type="text" 
+          id="titleFilter"
+          [(ngModel)]="filters.title" 
+          placeholder="Buscar por título..."
+          (keyup.enter)="applyFilters()"
+        >
+      </div>
+
+      <div class="filter-group">
+        <label for="locationFilter">Ubicación:</label>
+        <input 
+          type="text" 
+          id="locationFilter"
+          [(ngModel)]="filters.location" 
+          placeholder="Buscar por ubicación..."
+          (keyup.enter)="applyFilters()"
+        >
+      </div>
+
+      <div class="filter-group">
+        <label for="dateFromFilter">Desde:</label>
+        <input 
+          type="date" 
+          id="dateFromFilter"
+          [(ngModel)]="filters.dateFrom"
+        >
+      </div>
+
+      <div class="filter-group">
+        <label for="dateToFilter">Hasta:</label>
+        <input 
+          type="date" 
+          id="dateToFilter"
+          [(ngModel)]="filters.dateTo"
+        >
+      </div>
+    </div>
+
+    <div class="filter-actions">
+      <button class="btn-secondary" (click)="applyFilters()">
+        🔍 Aplicar Filtros
+      </button>
+      <button class="btn-outline" (click)="clearFilters()">
+        🗑️ Limpiar
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando eventos...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-message">
+    <span>❌</span>
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Events List -->
+  <div *ngIf="!loading && !error" class="events-grid">
+    <div *ngIf="events.length === 0" class="no-events">
+      <span>📅</span>
+      <h3>No hay eventos</h3>
+      <p>Crea tu primer evento para comenzar</p>
+      <button class="btn-primary" (click)="createNewEvent()">
+        Crear Evento
+      </button>
+    </div>
+
+    <div *ngFor="let event of events" class="event-card">
+      <div class="event-header">
+        <h3 class="event-title">{{ event.title }}</h3>
+        <div class="event-status" [class]="getStatusClass(event.status)">
+          {{ getStatusName(event.status) }}
+        </div>
+      </div>
+
+      <div class="event-details">
+        <div class="detail-item">
+          <span class="icon">📅</span>
+          <span>{{ formatDate(event.dateTime) }}</span>
+        </div>
+        
+        <div class="detail-item">
+          <span class="icon">📍</span>
+          <span>{{ event.location }}</span>
+        </div>
+
+        <div *ngIf="event.description" class="detail-item">
+          <span class="icon">📝</span>
+          <p class="event-description">{{ event.description }}</p>
+        </div>
+      </div>
+
+      <div class="event-actions">
+        <button class="btn-view" (click)="viewEvent(event.id)">
+          👁️ Ver
+        </button>
+        
+        <button class="btn-edit" (click)="editEvent(event.id)">
+          ✏️ Editar
+        </button>
+
+        <div class="status-dropdown">
+          <select 
+            [value]="event.status" 
+            (change)="updateEventStatus(event.id, +($any($event.target).value))"
+            class="status-select"
+          >
+            <option *ngFor="let status of statusOptions" [value]="status.value">
+              {{ status.label }}
+            </option>
+          </select>
+        </div>
+
+        <button class="btn-delete" (click)="deleteEvent(event.id)">
+          🗑️ Eliminar
+        </button>
+      </div>
+
+      <div class="event-footer">
+        <small>Creado: {{ formatDate(event.createdAt) }}</small>
+        <small *ngIf="event.updatedAt">Actualizado: {{ formatDate(event.updatedAt) }}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div *ngIf="!loading && !error && events.length > 0" class="stats">
+    <div class="stat-item">
+      <span class="stat-number">{{ events.length }}</span>
+      <span class="stat-label">Total de eventos</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">{{ getUpcomingCount() }}</span>
+      <span class="stat-label">Próximos</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">{{ getAttendingCount() }}</span>
+      <span class="stat-label">Asistiendo</span>
+    </div>
+  </div>
+</div>

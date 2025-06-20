@@ -1,0 +1,138 @@
+<div class="event-detail-container">
+  <!-- Header con navegación -->
+  <div class="header">
+    <button class="btn-back" (click)="goBack()">
+      ← Volver a la lista
+    </button>
+    <h1>Detalles del Evento</h1>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando evento...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-message">
+    <span>❌</span>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="goBack()">
+      Volver a la lista
+    </button>
+  </div>
+
+  <!-- Event Details -->
+  <div *ngIf="!loading && !error && event" class="event-detail-card">
+    <div class="event-header">
+      <div class="event-title-section">
+        <h2>{{ event.title }}</h2>
+        <div class="event-status" [class]="getStatusClass(event.status)">
+          {{ getStatusName(event.status) }}
+        </div>
+      </div>
+      
+      <div class="event-actions">
+        <button class="btn-edit" (click)="editEvent()">
+          ✏️ Editar
+        </button>
+        <button class="btn-delete" (click)="deleteEvent()">
+          🗑️ Eliminar
+        </button>
+      </div>
+    </div>
+
+    <div class="event-content">
+      <div class="event-info-grid">
+        <div class="info-item">
+          <div class="info-label">
+            <span class="icon">📅</span>
+            Fecha y Hora
+          </div>
+          <div class="info-value">
+            {{ formatDate(event.dateTime) }}
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            <span class="icon">📍</span>
+            Ubicación
+          </div>
+          <div class="info-value">
+            {{ event.location }}
+          </div>
+        </div>
+
+        <div class="info-item full-width">
+          <div class="info-label">
+            <span class="icon">📝</span>
+            Descripción
+          </div>
+          <div class="info-value description">
+            {{ event.description || 'Sin descripción disponible' }}
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            <span class="icon">🆔</span>
+            ID del Evento
+          </div>
+          <div class="info-value">
+            #{{ event.id }}
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            <span class="icon">📊</span>
+            Estado Actual
+          </div>
+          <div class="info-value">
+            <select 
+              [value]="event.status" 
+              (change)="updateEventStatus(+($any($event.target).value))"
+              class="status-select"
+            >
+              <option *ngFor="let status of statusOptions" [value]="status.value">
+                {{ status.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-meta">
+        <div class="meta-item">
+          <span class="meta-label">Creado:</span>
+          <span class="meta-value">{{ formatDate(event.createdAt) }}</span>
+        </div>
+        
+        <div *ngIf="event.updatedAt" class="meta-item">
+          <span class="meta-label">Última actualización:</span>
+          <span class="meta-value">{{ formatDate(event.updatedAt) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-footer">
+      <button class="btn-secondary" (click)="goBack()">
+        ← Volver a la lista
+      </button>
+      <button class="btn-primary" (click)="editEvent()">
+        ✏️ Editar Evento
+      </button>
+    </div>
+  </div>
+
+  <!-- Not Found State -->
+  <div *ngIf="!loading && !error && !event" class="not-found">
+    <span>🔍</span>
+    <h3>Evento no encontrado</h3>
+    <p>El evento que buscas no existe o ha sido eliminado.</p>
+    <button class="btn-primary" (click)="goBack()">
+      Volver a la lista
+    </button>
+  </div>
+</div>
