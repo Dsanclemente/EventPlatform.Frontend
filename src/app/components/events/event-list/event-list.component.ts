@@ -18,7 +18,7 @@ export class EventListComponent implements OnInit {
   loading = false;
   error = '';
   
-  // Filtros
+  // Filters
   filters = {
     title: '',
     location: '',
@@ -26,12 +26,12 @@ export class EventListComponent implements OnInit {
     dateTo: ''
   };
 
-  // Estados disponibles
+  // Available statuses
   statusOptions = [
-    { value: EventStatus.Upcoming, label: 'Próximo' },
-    { value: EventStatus.Attending, label: 'Asistiendo' },
-    { value: EventStatus.Maybe, label: 'Tal vez' },
-    { value: EventStatus.Declined, label: 'Rechazado' }
+    { value: EventStatus.Upcoming, label: 'Upcoming' },
+    { value: EventStatus.Attending, label: 'Attending' },
+    { value: EventStatus.Maybe, label: 'Maybe' },
+    { value: EventStatus.Declined, label: 'Declined' }
   ];
 
   constructor(
@@ -54,7 +54,7 @@ export class EventListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Error al cargar los eventos: ' + error.message;
+        this.error = 'Error loading events: ' + error.message;
         this.loading = false;
       }
     });
@@ -78,33 +78,33 @@ export class EventListComponent implements OnInit {
     this.eventService.updateEventStatus(eventId, { status: newStatus }).subscribe({
       next: (response) => {
         if (response.success) {
-          // Actualizar el evento en la lista
+          // Update event in the list
           const eventIndex = this.events.findIndex(e => e.id === eventId);
           if (eventIndex !== -1) {
             this.events[eventIndex].status = newStatus;
             this.events[eventIndex].updatedAt = new Date().toISOString();
           }
-          console.log('Estado actualizado:', response.message);
+          console.log('Status updated:', response.message);
         }
       },
       error: (error) => {
-        console.error('Error al actualizar estado:', error);
+        console.error('Error updating status:', error);
       }
     });
   }
 
   deleteEvent(eventId: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+    if (confirm('Are you sure you want to delete this event?')) {
       this.eventService.deleteEvent(eventId).subscribe({
         next: (response) => {
           if (response.success) {
             this.events = this.events.filter(e => e.id !== eventId);
             this.filteredEvents = this.filteredEvents.filter(e => e.id !== eventId);
-            console.log('Evento eliminado:', response.message);
+            console.log('Event deleted:', response.message);
           }
         },
         error: (error) => {
-          console.error('Error al eliminar evento:', error);
+          console.error('Error deleting event:', error);
         }
       });
     }

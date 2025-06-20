@@ -17,12 +17,12 @@ export class EventDetailComponent implements OnInit {
   error = '';
   eventId: number = 0;
 
-  // Estados disponibles
+  // Available statuses
   statusOptions = [
-    { value: EventStatus.Upcoming, label: 'Próximo' },
-    { value: EventStatus.Attending, label: 'Asistiendo' },
-    { value: EventStatus.Maybe, label: 'Tal vez' },
-    { value: EventStatus.Declined, label: 'Rechazado' }
+    { value: EventStatus.Upcoming, label: 'Upcoming' },
+    { value: EventStatus.Attending, label: 'Attending' },
+    { value: EventStatus.Maybe, label: 'Maybe' },
+    { value: EventStatus.Declined, label: 'Declined' }
   ];
 
   constructor(
@@ -50,7 +50,7 @@ export class EventDetailComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Error al cargar el evento: ' + error.message;
+        this.error = 'Error loading event: ' + error.message;
         this.loading = false;
       }
     });
@@ -64,11 +64,11 @@ export class EventDetailComponent implements OnInit {
         if (response.success && this.event) {
           this.event.status = newStatus;
           this.event.updatedAt = new Date().toISOString();
-          console.log('Estado actualizado:', response.message);
+          console.log('Status updated:', response.message);
         }
       },
       error: (error) => {
-        console.error('Error al actualizar estado:', error);
+        console.error('Error updating status:', error);
       }
     });
   }
@@ -76,16 +76,16 @@ export class EventDetailComponent implements OnInit {
   deleteEvent(): void {
     if (!this.event) return;
 
-    if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+    if (confirm('Are you sure you want to delete this event?')) {
       this.eventService.deleteEvent(this.eventId).subscribe({
         next: (response) => {
           if (response.success) {
-            console.log('Evento eliminado:', response.message);
+            console.log('Event deleted:', response.message);
             this.router.navigate(['/events']);
           }
         },
         error: (error) => {
-          console.error('Error al eliminar evento:', error);
+          console.error('Error deleting event:', error);
         }
       });
     }

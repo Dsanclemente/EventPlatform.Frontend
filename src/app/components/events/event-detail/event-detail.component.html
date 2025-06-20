@@ -1,16 +1,16 @@
 <div class="event-detail-container">
-  <!-- Header con navegación -->
+  <!-- Header with navigation -->
   <div class="header">
     <button class="btn-back" (click)="goBack()">
-      ← Volver a la lista
+      ← Back to list
     </button>
-    <h1>Detalles del Evento</h1>
+    <h1>Event Details</h1>
   </div>
 
   <!-- Loading State -->
   <div *ngIf="loading" class="loading">
     <div class="spinner"></div>
-    <p>Cargando evento...</p>
+    <p>Loading event...</p>
   </div>
 
   <!-- Error State -->
@@ -18,7 +18,7 @@
     <span>❌</span>
     <p>{{ error }}</p>
     <button class="btn-primary" (click)="goBack()">
-      Volver a la lista
+      Back to list
     </button>
   </div>
 
@@ -34,10 +34,10 @@
       
       <div class="event-actions">
         <button class="btn-edit" (click)="editEvent()">
-          ✏️ Editar
+          ✏️ Edit
         </button>
         <button class="btn-delete" (click)="deleteEvent()">
-          🗑️ Eliminar
+          🗑️ Delete
         </button>
       </div>
     </div>
@@ -47,7 +47,7 @@
         <div class="info-item">
           <div class="info-label">
             <span class="icon">📅</span>
-            Fecha y Hora
+            Date and Time
           </div>
           <div class="info-value">
             {{ formatDate(event.dateTime) }}
@@ -57,7 +57,7 @@
         <div class="info-item">
           <div class="info-label">
             <span class="icon">📍</span>
-            Ubicación
+            Location
           </div>
           <div class="info-value">
             {{ event.location }}
@@ -67,17 +67,17 @@
         <div class="info-item full-width">
           <div class="info-label">
             <span class="icon">📝</span>
-            Descripción
+            Description
           </div>
           <div class="info-value description">
-            {{ event.description || 'Sin descripción disponible' }}
+            {{ event.description || 'No description available' }}
           </div>
         </div>
 
         <div class="info-item">
           <div class="info-label">
             <span class="icon">🆔</span>
-            ID del Evento
+            Event ID
           </div>
           <div class="info-value">
             #{{ event.id }}
@@ -87,7 +87,7 @@
         <div class="info-item">
           <div class="info-label">
             <span class="icon">📊</span>
-            Estado Actual
+            Current Status
           </div>
           <div class="info-value">
             <select 
@@ -105,12 +105,12 @@
 
       <div class="event-meta">
         <div class="meta-item">
-          <span class="meta-label">Creado:</span>
+          <span class="meta-label">Created:</span>
           <span class="meta-value">{{ formatDate(event.createdAt) }}</span>
         </div>
         
         <div *ngIf="event.updatedAt" class="meta-item">
-          <span class="meta-label">Última actualización:</span>
+          <span class="meta-label">Last updated:</span>
           <span class="meta-value">{{ formatDate(event.updatedAt) }}</span>
         </div>
       </div>
@@ -118,10 +118,10 @@
 
     <div class="event-footer">
       <button class="btn-secondary" (click)="goBack()">
-        ← Volver a la lista
+        ← Back to list
       </button>
       <button class="btn-primary" (click)="editEvent()">
-        ✏️ Editar Evento
+        ✏️ Edit Event
       </button>
     </div>
   </div>
@@ -129,10 +129,10 @@
   <!-- Not Found State -->
   <div *ngIf="!loading && !error && !event" class="not-found">
     <span>🔍</span>
-    <h3>Evento no encontrado</h3>
-    <p>El evento que buscas no existe o ha sido eliminado.</p>
+    <h3>Event not found</h3>
+    <p>The event you're looking for doesn't exist or has been deleted.</p>
     <button class="btn-primary" (click)="goBack()">
-      Volver a la lista
+      Back to list
     </button>
   </div>
 </div>

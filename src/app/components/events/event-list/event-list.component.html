@@ -1,39 +1,39 @@
 <div class="event-list-container">
   <!-- Header -->
   <div class="header">
-    <h1>🎉 Gestión de Eventos</h1>
+    <h1>🎉 Event Management</h1>
     <button class="btn-primary" (click)="createNewEvent()">
-      <span>➕</span> Nuevo Evento
+      <span>➕</span> New Event
     </button>
   </div>
 
-  <!-- Filtros -->
+  <!-- Filters -->
   <div class="filters-section">
     <div class="filters-grid">
       <div class="filter-group">
-        <label for="titleFilter">Título:</label>
+        <label for="titleFilter">Title:</label>
         <input 
           type="text" 
           id="titleFilter"
           [(ngModel)]="filters.title" 
-          placeholder="Buscar por título..."
+          placeholder="Search by title..."
           (keyup.enter)="applyFilters()"
         >
       </div>
 
       <div class="filter-group">
-        <label for="locationFilter">Ubicación:</label>
+        <label for="locationFilter">Location:</label>
         <input 
           type="text" 
           id="locationFilter"
           [(ngModel)]="filters.location" 
-          placeholder="Buscar por ubicación..."
+          placeholder="Search by location..."
           (keyup.enter)="applyFilters()"
         >
       </div>
 
       <div class="filter-group">
-        <label for="dateFromFilter">Desde:</label>
+        <label for="dateFromFilter">From:</label>
         <input 
           type="date" 
           id="dateFromFilter"
@@ -42,7 +42,7 @@
       </div>
 
       <div class="filter-group">
-        <label for="dateToFilter">Hasta:</label>
+        <label for="dateToFilter">To:</label>
         <input 
           type="date" 
           id="dateToFilter"
@@ -53,10 +53,10 @@
 
     <div class="filter-actions">
       <button class="btn-secondary" (click)="applyFilters()">
-        🔍 Aplicar Filtros
+        🔍 Apply Filters
       </button>
       <button class="btn-outline" (click)="clearFilters()">
-        🗑️ Limpiar
+        🗑️ Clear
       </button>
     </div>
   </div>
@@ -64,7 +64,7 @@
   <!-- Loading State -->
   <div *ngIf="loading" class="loading">
     <div class="spinner"></div>
-    <p>Cargando eventos...</p>
+    <p>Loading events...</p>
   </div>
 
   <!-- Error State -->
@@ -77,10 +77,10 @@
   <div *ngIf="!loading && !error" class="events-grid">
     <div *ngIf="events.length === 0" class="no-events">
       <span>📅</span>
-      <h3>No hay eventos</h3>
-      <p>Crea tu primer evento para comenzar</p>
+      <h3>No events</h3>
+      <p>Create your first event to get started</p>
       <button class="btn-primary" (click)="createNewEvent()">
-        Crear Evento
+        Create Event
       </button>
     </div>
 
@@ -111,11 +111,11 @@
 
       <div class="event-actions">
         <button class="btn-view" (click)="viewEvent(event.id)">
-          👁️ Ver
+          👁️ View
         </button>
         
         <button class="btn-edit" (click)="editEvent(event.id)">
-          ✏️ Editar
+          ✏️ Edit
         </button>
 
         <div class="status-dropdown">
@@ -131,13 +131,13 @@
         </div>
 
         <button class="btn-delete" (click)="deleteEvent(event.id)">
-          🗑️ Eliminar
+          🗑️ Delete
         </button>
       </div>
 
       <div class="event-footer">
-        <small>Creado: {{ formatDate(event.createdAt) }}</small>
-        <small *ngIf="event.updatedAt">Actualizado: {{ formatDate(event.updatedAt) }}</small>
+        <small>Created: {{ formatDate(event.createdAt) }}</small>
+        <small *ngIf="event.updatedAt">Updated: {{ formatDate(event.updatedAt) }}</small>
       </div>
     </div>
   </div>
@@ -146,15 +146,15 @@
   <div *ngIf="!loading && !error && events.length > 0" class="stats">
     <div class="stat-item">
       <span class="stat-number">{{ events.length }}</span>
-      <span class="stat-label">Total de eventos</span>
+      <span class="stat-label">Total events</span>
     </div>
     <div class="stat-item">
       <span class="stat-number">{{ getUpcomingCount() }}</span>
-      <span class="stat-label">Próximos</span>
+      <span class="stat-label">Upcoming</span>
     </div>
     <div class="stat-item">
       <span class="stat-number">{{ getAttendingCount() }}</span>
-      <span class="stat-label">Asistiendo</span>
+      <span class="stat-label">Attending</span>
     </div>
   </div>
 </div>

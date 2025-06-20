@@ -42,7 +42,7 @@
   }
 }
 
-// Estados de carga y error
+// Loading and error states
 .loading {
   text-align: center;
   padding: 60px 20px;
@@ -355,22 +355,22 @@ select.form-control {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 
-  &.status-próximo {
+  &.status-upcoming {
     background: #fff3cd;
     color: #856404;
   }
 
-  &.status-asistiendo {
+  &.status-attending {
     background: #d4edda;
     color: #155724;
   }
 
-  &.status-tal-vez {
+  &.status-maybe {
     background: #cce5ff;
     color: #004085;
   }
 
-  &.status-rechazado {
+  &.status-declined {
     background: #f8d7da;
     color: #721c24;
   }

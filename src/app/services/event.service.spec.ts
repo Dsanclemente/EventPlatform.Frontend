@@ -292,11 +292,11 @@ describe('EventService', () => {
 
   describe('getStatusName', () => {
     it('should return correct status name for each status code', () => {
-      expect(service.getStatusName(EventStatus.Upcoming)).toBe('Próximo');
-      expect(service.getStatusName(EventStatus.Attending)).toBe('Asistiendo');
-      expect(service.getStatusName(EventStatus.Maybe)).toBe('Tal vez');
-      expect(service.getStatusName(EventStatus.Declined)).toBe('Rechazado');
-      expect(service.getStatusName(999)).toBe('Desconocido');
+      expect(service.getStatusName(EventStatus.Upcoming)).toBe('Upcoming');
+      expect(service.getStatusName(EventStatus.Attending)).toBe('Attending');
+      expect(service.getStatusName(EventStatus.Maybe)).toBe('Maybe');
+      expect(service.getStatusName(EventStatus.Declined)).toBe('Declined');
+      expect(service.getStatusName(999)).toBe('Unknown');
     });
   });
 

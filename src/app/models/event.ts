@@ -45,7 +45,7 @@ export interface GenerateDescriptionResponse {
   description: string;
 }
 
-// Respuestas estandarizadas de la API
+// Standardized API responses
 export interface ApiResponse<T> {
   success: boolean;
   message: string;

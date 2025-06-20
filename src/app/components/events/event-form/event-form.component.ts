@@ -21,12 +21,12 @@ export class EventFormComponent implements OnInit {
   error = '';
   event: Event | null = null;
 
-  // Estados disponibles
+  // Available statuses
   statusOptions = [
-    { value: EventStatus.Upcoming, label: 'Próximo' },
-    { value: EventStatus.Attending, label: 'Asistiendo' },
-    { value: EventStatus.Maybe, label: 'Tal vez' },
-    { value: EventStatus.Declined, label: 'Rechazado' }
+    { value: EventStatus.Upcoming, label: 'Upcoming' },
+    { value: EventStatus.Attending, label: 'Attending' },
+    { value: EventStatus.Maybe, label: 'Maybe' },
+    { value: EventStatus.Declined, label: 'Declined' }
   ];
 
   constructor(
@@ -63,7 +63,7 @@ export class EventFormComponent implements OnInit {
   }
 
   setDefaultValues(): void {
-    // Establecer fecha y hora por defecto (mañana a las 10:00 AM)
+    // Set default date and time (tomorrow at 10:00 AM)
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setHours(10, 0, 0, 0);
@@ -87,14 +87,14 @@ export class EventFormComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Error al cargar el evento: ' + error.message;
+        this.error = 'Error loading event: ' + error.message;
         this.loading = false;
       }
     });
   }
 
   populateForm(event: Event): void {
-    // Convertir la fecha de la API al formato requerido por el input datetime-local
+    // Convert API date to format required by datetime-local input
     const dateTime = new Date(event.dateTime);
     const formattedDateTime = dateTime.toISOString().slice(0, 16);
 
@@ -123,11 +123,11 @@ export class EventFormComponent implements OnInit {
 
     const formValue = this.eventForm.value;
     
-    // Convertir la fecha del formulario al formato ISO
+    // Convert form date to ISO format
     const dateTime = new Date(formValue.dateTime);
     const isoDateTime = dateTime.toISOString();
 
-    // Convertir status a número
+    // Convert status to number
     const statusNumber = parseInt(formValue.status, 10);
 
     if (this.isEditMode) {
@@ -143,12 +143,12 @@ export class EventFormComponent implements OnInit {
       this.eventService.updateEvent(this.eventId, updateRequest).subscribe({
         next: (response) => {
           if (response.success) {
-            console.log('Evento actualizado:', response.message);
+            console.log('Event updated:', response.message);
             this.router.navigate(['/events', this.eventId]);
           }
         },
         error: (error) => {
-          this.error = 'Error al actualizar el evento: ' + error.message;
+          this.error = 'Error updating event: ' + error.message;
           this.saving = false;
         }
       });
@@ -164,12 +164,12 @@ export class EventFormComponent implements OnInit {
       this.eventService.createEvent(createRequest).subscribe({
         next: (response) => {
           if (response.success && response.data) {
-            console.log('Evento creado:', response.message);
+            console.log('Event created:', response.message);
             this.router.navigate(['/events', response.data.id]);
           }
         },
         error: (error) => {
-          this.error = 'Error al crear el evento: ' + error.message;
+          this.error = 'Error creating event: ' + error.message;
           this.saving = false;
         }
       });
@@ -179,7 +179,7 @@ export class EventFormComponent implements OnInit {
   generateDescription(): void {
     const title = this.eventForm.get('title')?.value;
     if (!title) {
-      alert('Por favor, ingresa un título primero para generar la descripción.');
+      alert('Please enter a title first to generate the description.');
       return;
     }
 
@@ -192,8 +192,8 @@ export class EventFormComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error al generar descripción:', error);
-        alert('Error al generar la descripción automática.');
+        console.error('Error generating description:', error);
+        alert('Error generating automatic description.');
       }
     });
   }
@@ -217,13 +217,13 @@ export class EventFormComponent implements OnInit {
     const field = this.eventForm.get(fieldName);
     if (field?.invalid && field?.touched) {
       if (field.errors?.['required']) {
-        return 'Este campo es requerido';
+        return 'This field is required';
       }
       if (field.errors?.['minlength']) {
-        return `Mínimo ${field.errors['minlength'].requiredLength} caracteres`;
+        return `Minimum ${field.errors['minlength'].requiredLength} characters`;
       }
       if (field.errors?.['maxlength']) {
-        return `Máximo ${field.errors['maxlength'].requiredLength} caracteres`;
+        return `Maximum ${field.errors['maxlength'].requiredLength} characters`;
       }
     }
     return '';

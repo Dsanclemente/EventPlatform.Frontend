@@ -22,7 +22,7 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todos los eventos con filtros opcionales
+  // Get all events with optional filters
   getEvents(filters?: {
     title?: string;
     location?: string;
@@ -41,48 +41,48 @@ export class EventService {
     return this.http.get<Event[]>(this.apiUrl, { params });
   }
 
-  // Obtener un evento específico por ID
+  // Get a specific event by ID
   getEvent(id: number): Observable<Event> {
     return this.http.get<Event>(`${this.apiUrl}/${id}`);
   }
 
-  // Crear un nuevo evento
+  // Create a new event
   createEvent(event: CreateEventRequest): Observable<ApiResponse<Event>> {
     return this.http.post<ApiResponse<Event>>(this.apiUrl, event);
   }
 
-  // Actualizar un evento existente
+  // Update an existing event
   updateEvent(id: number, event: UpdateEventRequest): Observable<ApiResponseSimple> {
     return this.http.put<ApiResponseSimple>(`${this.apiUrl}/${id}`, event);
   }
 
-  // Actualizar solo el estado de un evento
+  // Update only the status of an event
   updateEventStatus(id: number, status: UpdateStatusRequest): Observable<StatusUpdateResponse> {
     return this.http.patch<StatusUpdateResponse>(`${this.apiUrl}/${id}/status`, status);
   }
 
-  // Eliminar un evento
+  // Delete an event
   deleteEvent(id: number): Observable<DeleteResponse> {
     return this.http.delete<DeleteResponse>(`${this.apiUrl}/${id}`);
   }
 
-  // Generar descripción automática
+  // Generate automatic description
   generateDescription(request: GenerateDescriptionRequest): Observable<ApiResponse<GenerateDescriptionResponse>> {
     return this.http.post<ApiResponse<GenerateDescriptionResponse>>(`${this.apiUrl}/generate-description`, request);
   }
 
-  // Método helper para obtener el nombre del estado
+  // Helper method to get status name
   getStatusName(status: number): string {
     switch (status) {
-      case 0: return 'Próximo';
-      case 1: return 'Asistiendo';
-      case 2: return 'Tal vez';
-      case 3: return 'Rechazado';
-      default: return 'Desconocido';
+      case 0: return 'Upcoming';
+      case 1: return 'Attending';
+      case 2: return 'Maybe';
+      case 3: return 'Declined';
+      default: return 'Unknown';
     }
   }
 
-  // Método helper para obtener la clase CSS del estado
+  // Helper method to get CSS class for status
   getStatusClass(status: number): string {
     switch (status) {
       case 0: return 'status-upcoming';
@@ -93,10 +93,10 @@ export class EventService {
     }
   }
 
-  // Método helper para formatear fecha
+  // Helper method to format date
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',

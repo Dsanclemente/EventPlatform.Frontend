@@ -2,15 +2,15 @@
   <!-- Header -->
   <div class="header">
     <button class="btn-back" (click)="cancel()">
-      ← Volver
+      ← Back
     </button>
-    <h1>{{ isEditMode ? 'Editar Evento' : 'Crear Nuevo Evento' }}</h1>
+    <h1>{{ isEditMode ? 'Edit Event' : 'Create New Event' }}</h1>
   </div>
 
   <!-- Loading State -->
   <div *ngIf="loading" class="loading">
     <div class="spinner"></div>
-    <p>Cargando evento...</p>
+    <p>Loading event...</p>
   </div>
 
   <!-- Error State -->
@@ -23,11 +23,11 @@
   <div *ngIf="!loading" class="form-card">
     <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
       
-      <!-- Título -->
+      <!-- Title -->
       <div class="form-group">
         <label for="title" class="form-label">
           <span class="icon">📝</span>
-          Título del Evento *
+          Event Title *
         </label>
         <input 
           type="text" 
@@ -35,7 +35,7 @@
           formControlName="title"
           class="form-control"
           [class.is-invalid]="isFieldInvalid('title')"
-          placeholder="Ej: Conferencia de Tecnología 2024"
+          placeholder="Ex: Technology Conference 2024"
           maxlength="100"
         >
         <div class="error-message" *ngIf="getFieldError('title')">
@@ -46,11 +46,11 @@
         </div>
       </div>
 
-      <!-- Fecha y Hora -->
+      <!-- Date and Time -->
       <div class="form-group">
         <label for="dateTime" class="form-label">
           <span class="icon">📅</span>
-          Fecha y Hora *
+          Date and Time *
         </label>
         <input 
           type="datetime-local" 
@@ -64,11 +64,11 @@
         </div>
       </div>
 
-      <!-- Ubicación -->
+      <!-- Location -->
       <div class="form-group">
         <label for="location" class="form-label">
           <span class="icon">📍</span>
-          Ubicación *
+          Location *
         </label>
         <input 
           type="text" 
@@ -76,7 +76,7 @@
           formControlName="location"
           class="form-control"
           [class.is-invalid]="isFieldInvalid('location')"
-          placeholder="Ej: Centro de Convenciones, Ciudad"
+          placeholder="Ex: Convention Center, City"
           maxlength="200"
         >
         <div class="error-message" *ngIf="getFieldError('location')">
@@ -87,18 +87,18 @@
         </div>
       </div>
 
-      <!-- Descripción -->
+      <!-- Description -->
       <div class="form-group">
         <label for="description" class="form-label">
           <span class="icon">📄</span>
-          Descripción
+          Description
           <button 
             type="button" 
             class="btn-generate" 
             (click)="generateDescription()"
             [disabled]="!eventForm.get('title')?.value"
           >
-            🤖 Generar Automáticamente
+            🤖 Generate Automatically
           </button>
         </label>
         <textarea 
@@ -106,7 +106,7 @@
           formControlName="description"
           class="form-control"
           [class.is-invalid]="isFieldInvalid('description')"
-          placeholder="Describe el evento, agenda, oradores, etc..."
+          placeholder="Describe the event, agenda, speakers, etc..."
           rows="6"
           maxlength="1000"
         ></textarea>
@@ -118,11 +118,11 @@
         </div>
       </div>
 
-      <!-- Estado -->
+      <!-- Status -->
       <div class="form-group">
         <label for="status" class="form-label">
           <span class="icon">📊</span>
-          Estado del Evento *
+          Event Status *
         </label>
         <select 
           id="status"
@@ -148,7 +148,7 @@
           (click)="cancel()"
           [disabled]="saving"
         >
-          Cancelar
+          Cancel
         </button>
         
         <button 
@@ -157,28 +157,28 @@
           [disabled]="eventForm.invalid || saving"
         >
           <span *ngIf="saving" class="spinner-small"></span>
-          {{ saving ? 'Guardando...' : (isEditMode ? 'Actualizar Evento' : 'Crear Evento') }}
+          {{ saving ? 'Saving...' : (isEditMode ? 'Update Event' : 'Create Event') }}
         </button>
       </div>
 
       <!-- Form Validation Summary -->
       <div *ngIf="eventForm.invalid && eventForm.touched" class="validation-summary">
-        <h4>Por favor, corrige los siguientes errores:</h4>
+        <h4>Please correct the following errors:</h4>
         <ul>
           <li *ngIf="eventForm.get('title')?.invalid && eventForm.get('title')?.touched">
-            Título: {{ getFieldError('title') }}
+            Title: {{ getFieldError('title') }}
           </li>
           <li *ngIf="eventForm.get('dateTime')?.invalid && eventForm.get('dateTime')?.touched">
-            Fecha y Hora: {{ getFieldError('dateTime') }}
+            Date and Time: {{ getFieldError('dateTime') }}
           </li>
           <li *ngIf="eventForm.get('location')?.invalid && eventForm.get('location')?.touched">
-            Ubicación: {{ getFieldError('location') }}
+            Location: {{ getFieldError('location') }}
           </li>
           <li *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched">
-            Descripción: {{ getFieldError('description') }}
+            Description: {{ getFieldError('description') }}
           </li>
           <li *ngIf="eventForm.get('status')?.invalid && eventForm.get('status')?.touched">
-            Estado: {{ getFieldError('status') }}
+            Status: {{ getFieldError('status') }}
           </li>
         </ul>
       </div>
@@ -187,7 +187,7 @@
 
   <!-- Preview Section -->
   <div *ngIf="!loading && eventForm.valid && eventForm.value.title" class="preview-section">
-    <h3>📋 Vista Previa</h3>
+    <h3>📋 Preview</h3>
     <div class="preview-card">
       <div class="preview-header">
         <h4>{{ eventForm.get('title')?.value }}</h4>
@@ -199,12 +199,12 @@
       <div class="preview-details">
         <div class="preview-item">
           <span class="icon">📅</span>
-          <span>{{ eventForm.get('dateTime')?.value ? (eventForm.get('dateTime')?.value | date:'fullDate':'':'es-ES') : 'Fecha no especificada' }}</span>
+          <span>{{ eventForm.get('dateTime')?.value ? (eventForm.get('dateTime')?.value | date:'fullDate':'':'en-US') : 'Date not specified' }}</span>
         </div>
         
         <div class="preview-item">
           <span class="icon">📍</span>
-          <span>{{ eventForm.get('location')?.value || 'Ubicación no especificada' }}</span>
+          <span>{{ eventForm.get('location')?.value || 'Location not specified' }}</span>
         </div>
         
         <div *ngIf="eventForm.get('description')?.value" class="preview-item">
